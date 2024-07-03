@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+  workflow_run:
+    workflows: ["Build"]
   pull_request:
 permissions:
       id-token: write # This is required for aws oidc connection
@@ -11,13 +13,14 @@ permissions:
 env:
   TF_LOG: INFO
   AWS_REGION: ${{ secrets.AWS_REGION }}
+
 jobs:
-  deploy:
+  pre_merge:
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
-        working-directory: ./layers/200compute
+        working-directory: ./layers/.
     steps:
       - name: Git checkout
         uses: actions/checkout@v3
@@ -28,7 +31,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
           role-session-name: GitHub-OIDC-TERRAFORM
-      
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -91,8 +94,14 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
-            })            
-
+            })
+  post_merge:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./layers/200compute
+    steps:
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
