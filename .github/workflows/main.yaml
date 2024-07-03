@@ -52,7 +52,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -input=false -var layer=200compute 
+        run: terraform plan -no-color -input=false -var layer=200compute -out=plan_200compute.plan
         #if: github.event_name == 'pull_request'
         continue-on-error: true
 
