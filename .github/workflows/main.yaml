@@ -98,7 +98,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./layers/200compute
+        working-directory: ./layers/
     steps:
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
