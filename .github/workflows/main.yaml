@@ -53,9 +53,9 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-          script:|
-            . venv/bin/activate
-            ./scripts/run.sh << parameters.env >> ./scripts/plan.sh << parameters.env >>
+        run: |
+          . venv/bin/activate
+          ./scripts/run.sh << parameters.env >> ./scripts/plan.sh << parameters.env >>
         #if: github.event_name == 'pull_request'
         continue-on-error: true
 
