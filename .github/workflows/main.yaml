@@ -18,7 +18,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./layers/*
+        working-directory: ./layers/
     steps:
       - name: Git checkout
         uses: actions/checkout@v3
