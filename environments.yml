@@ -8,4 +8,4 @@
 environments:
   - name: staging
     account: 690684070616
-  
+    bucket: test-cicd-tfstate
