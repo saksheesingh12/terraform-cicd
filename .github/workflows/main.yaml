@@ -11,6 +11,7 @@ permissions:
 env:
   TF_LOG: INFO
   AWS_REGION: ${{ secrets.AWS_REGION }}
+   
 
 jobs:
   lint:
@@ -48,11 +49,11 @@ jobs:
 
   pre_merge_staging:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./layers
-    needs: [lint]  
+    # defaults:
+    #   run:
+    #     shell: bash
+    #     working-directory: ./layers
+    needs: [lint]
     steps:
       # - name: Terraform Init
       #   id: init
