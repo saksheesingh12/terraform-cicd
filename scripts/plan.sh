@@ -14,7 +14,7 @@ SCRIPTS_DIR="$( cd "$(dirname "${0}")" ; pwd -P )"
 #source ${SCRIPTS_DIR}/util.sh
 
 # we may be sharing this container with other builds
-REPO_ROOT="cd ${SCRIPTS_DIR} && cd .."
+REPO_ROOT="${SCRIPTS_DIR}/.."
 LAYERS_DIR="${REPO_ROOT}/layers"
 PLANS_DIR="${REPO_ROOT}/plans"
 
