@@ -29,12 +29,12 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
           role-session-name: GitHub-OIDC-TERRAFORM
-      - name: Install dependencies for build/deploy
-        run: |
-              pwd
-              python3 -m venv venv
-              . venv/bin/activate
-              ../scripts/install-dependencies.sh
+      # - name: Install dependencies for build/deploy
+      #   run: |
+      #         pwd
+      #         python3 -m venv venv
+      #         . venv/bin/activate
+      #         ../scripts/install-dependencies.sh
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -61,7 +61,6 @@ jobs:
         env:
           ENVIRONMENT_NAME: staging
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          state_bucket_${aws_account_id}: test-cicd-tfstate
         run: |
           ../scripts/plan.sh
         #if: github.event_name == 'pull_request'
