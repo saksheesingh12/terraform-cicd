@@ -37,10 +37,7 @@ function plan_layers {
     -backend=true \
     -backend-config="bucket=${state_bucket}" \
     -backend-config="region=ap-south-1" \
-    -backend-config="key=${state_bucket}/env/${environment}/test-cicd.tfstate" \
-    -backend-config="encrypt=true" \
-    -backend-config="dynamodb_table=terraform_lock_${aws_account_id}" \
-    -lock="true"
+    -backend-config="test-cicd.tfstate" \
     # create and/or switch to the appropriate terraform workspace
     terraform workspace select ${environment} || terraform workspace new ${environment}
 
