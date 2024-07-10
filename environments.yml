@@ -1,0 +1,11 @@
+# This file describes a mapping of environment names to actual AWS account
+# numbers. These aliases can be used for convenience instead of the account
+# when running `fleece run` commands.
+# The same environment labels are used to define:
+#   * terraform worspace
+#   * the terraform tfvars file
+#   * the terraform plan output file
+environments:
+  - name: staging
+    account: 1234567890
+  
