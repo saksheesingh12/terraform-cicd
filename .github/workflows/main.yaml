@@ -54,8 +54,8 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: |
-          ./scripts/run.sh
-          ./scripts/plan.sh
+          ../scripts/run.sh
+          ../scripts/plan.sh
         #if: github.event_name == 'pull_request'
         continue-on-error: true
 
