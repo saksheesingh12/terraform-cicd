@@ -49,10 +49,10 @@ jobs:
 
   pre_merge_staging:
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     shell: bash
-    #     working-directory: ./layers
+    defaults:
+      run:
+        shell: bash
+        working-directory: layers
     needs: [lint]
     steps:
       # - name: Terraform Init
