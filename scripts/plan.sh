@@ -31,8 +31,17 @@ function plan_layers {
     local layer_dir="${LAYERS_DIR}/${layer}"
     pushd ${layer_dir}
 
-    tf_init state_bucket_${aws_account_id} ${AWS_REGION} ${aws_account_id} ${layer}
-
+    #tf_init state_bucket_${aws_account_id} ${AWS_REGION} ${aws_account_id} ${layer}
+    terraform init \
+    -no-color \
+    -input=false \
+    -backend=true \
+    -backend-config="bucket=state_bucket_${aws_account_id}" \
+    -backend-config="region=${AWS_REGION}" \
+    -backend-config="key=terraform.${cwd}.tfstate" \
+    -backend-config="encrypt=true" \
+    -backend-config="dynamodb_table=terraform_lock_${aws_account_id}" \
+    -lock="${lock}"
     # create and/or switch to the appropriate terraform workspace
     terraform workspace select ${environment} || terraform workspace new ${environment}
 
