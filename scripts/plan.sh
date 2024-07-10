@@ -32,13 +32,14 @@ function plan_layers {
     pushd ${layer_dir}
     #tf_init state_bucket_${aws_account_id} ${AWS_REGION} ${aws_account_id} ${layer}
     #terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
+    echo "running init on ${layer}"
     terraform init \
     -no-color \
     -input=false \
     -backend=true \
     -backend-config="bucket=${state_bucket}" \
     -backend-config="region=ap-south-1" \
-    -backend-config="key=test-cicd.tfstate" \
+    -backend-config="key=terraform.${layer}.tfstate " \
     # create and/or switch to the appropriate terraform workspace
     terraform workspace select ${environment} || terraform workspace new ${environment}
 
