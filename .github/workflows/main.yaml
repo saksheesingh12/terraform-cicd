@@ -51,11 +51,13 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
-      - name: Terraform Plan
+      - name: Terraform Plan Staging
         id: plan
+        env: 
+            environment: staging
         run: |
-          ../scripts/run.sh
-          ../scripts/plan.sh
+          ../scripts/run.sh << parameters.env >>
+          ../scripts/plan.sh << parameters.env >>
         #if: github.event_name == 'pull_request'
         continue-on-error: true
 
@@ -106,6 +108,8 @@ jobs:
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
-      - name: Terraform Apply
+      - name: Terraform Apply Staging
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          environment: staging
         run: terraform apply -no-color -input=false -auto-approve plan_200compute.plan
