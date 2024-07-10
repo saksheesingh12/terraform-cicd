@@ -36,7 +36,7 @@ function plan_layers {
     -input=false \
     -backend=true \
     -backend-config="bucket=${state_bucket}" \
-    -backend-config="region=${AWS_REGION}" \
+    -backend-config="region=ap-south-1" \
     -backend-config="key=${state_bucket}/env/${environment}/test-cicd.tfstate" \
     -backend-config="encrypt=true" \
     -backend-config="dynamodb_table=terraform_lock_${aws_account_id}" \
