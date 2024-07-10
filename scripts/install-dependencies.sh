@@ -16,7 +16,4 @@ pip install --upgrade --upgrade-strategy only-if-needed --prefer-binary ruamel.y
 pip install ruamel.yaml
 
 pip install --upgrade fleece[cli]
-git clone https://github.com/tfutils/tfenv.git ~/.tfenv
-echo "export PATH="$HOME/.tfenv/bin:$PATH"" >> ~/.bash_profile
-sudo ln -s ~/.tfenv/bin/* /usr/local/bin
-tfenv install
+#tfenv install
