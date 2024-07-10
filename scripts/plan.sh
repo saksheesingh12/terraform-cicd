@@ -3,7 +3,6 @@
 # Modified by: nick.garratt@rackspace.co.uk
 
 set -euxo pipefail
-#sudo apt-get update && apt-get install -y yq
 
 environment=${ENVIRONMENT_NAME}
 
@@ -20,8 +19,8 @@ mkdir -p "${PLAN_DIR}"
 function plan_layers {
   local environment="${1}"
   local layers=$(ls ${LAYERS_DIR})
-  local account_details=$(yq -r '.environments.'"$environment" environments.yml)
-  local aws_account_id=$(echo "$account_details" | yq -r '.account')
+  #local account_details=$(yq -r '.environments.'"$environment" environments.yml)
+  local aws_account_id=$(yq -r '.environments[] | select(.name == "'"$environment"'") | .account' environments.yml)
   echo $aws_account_id
   local state_bucket=$(get_state_bucket $aws_account_id)
 
