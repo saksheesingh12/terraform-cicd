@@ -25,6 +25,7 @@ jobs:
             pwd
             python3 -m venv venv
             . venv/bin/activate
+            ls -la
             cd ./scripts && ./install-dependencies.sh
             
       - name: Git checkout
