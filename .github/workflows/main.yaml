@@ -102,12 +102,15 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+
+
   post_merge:
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
         working-directory: ./layers
+    needs: [pre_merge]
     steps:
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
