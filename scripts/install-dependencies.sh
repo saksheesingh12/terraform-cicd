@@ -12,8 +12,8 @@ pip --version
 #
 # So, request a known-good (i.e. pinned) binary version
 
-pip install --upgrade --upgrade-strategy only-if-needed --prefer-binary ruamel.yaml.clib==0.2.2
-pip install ruamel.yaml==0.17.17
+pip install --upgrade --upgrade-strategy only-if-needed --prefer-binary ruamel.yaml.clib
+pip install ruamel.yaml
 
 pip install --upgrade fleece[cli]
 tfenv install
