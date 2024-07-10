@@ -1,3 +1,4 @@
 #Comment
 .terraform
 test.yaml
+./plans
