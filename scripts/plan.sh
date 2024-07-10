@@ -22,7 +22,7 @@ function plan_layers {
   #local account_details=$(yq -r '.environments.'"$environment" environments.yml)
   local aws_account_id=$(yq -r '.environments[] | select(.name == "'"$environment"'") | .account' environments.yml)
   echo $aws_account_id
-  local state_bucket=$(get_state_bucket $aws_account_id)
+  local state_bucket=$(yq -r '.environments[] | select(.name == "'"$environment"'") | .bucket' environments.yml)
 
   echo "DIAG: AWS_ACCOUNT_ID=${aws_account_id}"
   echo "DIAG: ENVIRONMENT=${environment}"
@@ -36,7 +36,7 @@ function plan_layers {
     -no-color \
     -input=false \
     -backend=true \
-    -backend-config="bucket=state_bucket_${aws_account_id}" \
+    -backend-config="bucket=${state_bucket}" \
     -backend-config="region=${AWS_REGION}" \
     -backend-config="key=terraform.${layer_dir}.tfstate" \
     -backend-config="encrypt=true" \
