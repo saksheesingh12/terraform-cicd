@@ -18,16 +18,8 @@ jobs:
     defaults:
       run:
         shell: bash
-
+        working-directory: ./layers
     steps:
-      - name: Install dependencies for build/deploy
-        run: |
-            pwd
-            python3 -m venv venv
-            . venv/bin/activate
-            cd .. && ls -la 
-            cd ./scripts && ./install-dependencies.sh
-            
       - name: Git checkout
         uses: actions/checkout@v3
 
@@ -37,7 +29,12 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
           role-session-name: GitHub-OIDC-TERRAFORM
-
+      - name: Install dependencies for build/deploy
+        run: |
+              pwd
+              python3 -m venv venv
+              . venv/bin/activate
+              ./install-dependencies.sh
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
