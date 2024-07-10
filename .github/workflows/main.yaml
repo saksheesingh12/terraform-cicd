@@ -13,7 +13,7 @@ env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
 
 jobs:
-  pre_merge:
+  lint:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -45,12 +45,21 @@ jobs:
         run: terraform fmt -check
         continue-on-error: true
 
-      - name: Terraform Init
-        id: init
-        env:
-          AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
-          AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
-        run: terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
+
+  pre_merge_staging:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./layers
+    needs: [lint]  
+    steps:
+      # - name: Terraform Init
+      #   id: init
+      #   env:
+      #     AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+      #     AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
+      #   run: terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
 
       - name: Terraform Validate
         id: validate
@@ -110,7 +119,7 @@ jobs:
       run:
         shell: bash
         working-directory: ./layers
-    needs: [pre_merge]
+    needs: [pre_merge_staging, lint]
     steps:
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
