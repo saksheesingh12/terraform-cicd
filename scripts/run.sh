@@ -5,7 +5,7 @@ SCRIPTS_DIR="$( cd "$(dirname "${0}")" ; pwd -P )"
 
 source ${SCRIPTS_DIR}/vars.sh
 
-environment="${1}"
+environment="${ENVIRONMENT_NAME}"
 environment_config="${SCRIPTS_DIR}/../environments.yml"
 cmd="${@:2}"
 
