@@ -53,11 +53,11 @@ jobs:
 
       - name: Terraform Plan Staging
         id: plan
-        env: 
-            environment: staging
+        env:
+          ENVIRONMENT_NAME: staging
         run: |
-          ../scripts/run.sh << env >>
-          ../scripts/plan.sh << env >>
+          ../scripts/run.sh
+          ../scripts/plan.sh
         #if: github.event_name == 'pull_request'
         continue-on-error: true
 
