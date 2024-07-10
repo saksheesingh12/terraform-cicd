@@ -56,8 +56,8 @@ jobs:
         env: 
             environment: staging
         run: |
-          ../scripts/run.sh << parameters.env >>
-          ../scripts/plan.sh << parameters.env >>
+          ../scripts/run.sh << env >>
+          ../scripts/plan.sh << env >>
         #if: github.event_name == 'pull_request'
         continue-on-error: true
 
