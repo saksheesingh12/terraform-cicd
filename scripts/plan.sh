@@ -3,18 +3,14 @@
 # Modified by: nick.garratt@rackspace.co.uk
 
 set -euxo pipefail
-apt-get update && apt-install -y yq
+sudo apt-get update && apt-install -y yq
 
 environment="staging"
 
 # Directory of this script:
 SCRIPTS_DIR="$( cd "$(dirname "${0}")" ; pwd -P )"
-
-#source ${SCRIPTS_DIR}/vars.sh
-#source ${SCRIPTS_DIR}/util.sh
-cd ${SCRIPTS_DIR}/ && cd .. >temp.txt
-# we may be sharing this container with other builds
-REPO_ROOT=temp.txt
+cd ..
+REPO_ROOT="$( cd "$(dirname "${0}")" ; pwd -P )"
 LAYERS_DIR="${REPO_ROOT}/layers"
 PLANS_DIR="${REPO_ROOT}/plans"
 
