@@ -38,7 +38,7 @@ function plan_layers {
     -backend=true \
     -backend-config="bucket=${state_bucket}" \
     -backend-config="region=ap-south-1" \
-    -backend-config="test-cicd.tfstate" \
+    -backend-config="key=test-cicd.tfstate" \
     # create and/or switch to the appropriate terraform workspace
     terraform workspace select ${environment} || terraform workspace new ${environment}
 
