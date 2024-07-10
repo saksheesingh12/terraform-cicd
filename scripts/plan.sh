@@ -4,12 +4,12 @@
 
 set -euxo pipefail
 
-environment="${1}"
+environment="${ENVIRONMENT_NAME}"
 
 # Directory of this script:
 SCRIPTS_DIR="$( cd "$(dirname "${0}")" ; pwd -P )"
 
-source ${SCRIPTS_DIR}/vars.sh
+#source ${SCRIPTS_DIR}/vars.sh
 source ${SCRIPTS_DIR}/util.sh
 
 # we may be sharing this container with other builds
