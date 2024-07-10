@@ -3,7 +3,7 @@
 # Modified by: nick.garratt@rackspace.co.uk
 
 set -euxo pipefail
-sudo apt-get update && apt-get install -y yq
+#sudo apt-get update && apt-get install -y yq
 
 environment="staging"
 
