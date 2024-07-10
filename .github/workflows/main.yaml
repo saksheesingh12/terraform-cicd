@@ -22,10 +22,10 @@ jobs:
     steps:
       - name: Install dependencies for build/deploy
         run: |
-            - pwd
-            - python3 -m venv venv
-            - . venv/bin/activate
-            - cd ./scripts && ./install-dependencies.sh
+            pwd
+            python3 -m venv venv
+            . venv/bin/activate
+            cd ./scripts && ./install-dependencies.sh
             
       - name: Git checkout
         uses: actions/checkout@v3
