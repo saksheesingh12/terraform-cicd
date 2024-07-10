@@ -30,7 +30,6 @@ function plan_layers {
   for layer in $layers; do
     local layer_dir="${LAYERS_DIR}/${layer}"
     pushd ${layer_dir}
-
     #tf_init state_bucket_${aws_account_id} ${AWS_REGION} ${aws_account_id} ${layer}
     terraform init \
     -no-color \
@@ -38,7 +37,7 @@ function plan_layers {
     -backend=true \
     -backend-config="bucket=${state_bucket}" \
     -backend-config="region=${AWS_REGION}" \
-    -backend-config="key=terraform.${layer_dir}.tfstate" \
+    -backend-config="key=${state_bucket}/env/${environment}/test-cicd.tfstate" \
     -backend-config="encrypt=true" \
     -backend-config="dynamodb_table=terraform_lock_${aws_account_id}" \
     -lock="true"
