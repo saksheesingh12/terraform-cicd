@@ -38,7 +38,7 @@ function plan_layers {
     -backend=true \
     -backend-config="bucket=state_bucket_${aws_account_id}" \
     -backend-config="region=${AWS_REGION}" \
-    -backend-config="key=terraform.${cwd}.tfstate" \
+    -backend-config="key=terraform.${layer_dir}.tfstate" \
     -backend-config="encrypt=true" \
     -backend-config="dynamodb_table=terraform_lock_${aws_account_id}" \
     -lock="${lock}"
