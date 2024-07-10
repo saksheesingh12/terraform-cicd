@@ -41,7 +41,7 @@ function plan_layers {
     -backend-config="key=terraform.${layer_dir}.tfstate" \
     -backend-config="encrypt=true" \
     -backend-config="dynamodb_table=terraform_lock_${aws_account_id}" \
-    -lock="${lock}"
+    -lock="true"
     # create and/or switch to the appropriate terraform workspace
     terraform workspace select ${environment} || terraform workspace new ${environment}
 
