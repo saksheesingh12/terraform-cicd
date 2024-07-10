@@ -61,8 +61,6 @@ jobs:
         env:
           ENVIRONMENT_NAME: staging
         run: |
-          . venv/bin/activate
-          ../scripts/run.sh
           ../scripts/plan.sh
         #if: github.event_name == 'pull_request'
         continue-on-error: true
