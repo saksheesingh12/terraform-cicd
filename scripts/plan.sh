@@ -3,9 +3,9 @@
 # Modified by: nick.garratt@rackspace.co.uk
 
 set -euxo pipefail
-#sudo apt-get update && apt-get install -y yq
+sudo apt-get update && apt-get install -y yq
 
-environment="staging"
+environment=${ENVIRONMENT_NAME}
 
 # Directory of this script:
 SCRIPTS_DIR="$( cd "$(dirname "${0}")" ; pwd -P )"
@@ -20,8 +20,8 @@ mkdir -p "${PLAN_DIR}"
 function plan_layers {
   local environment="${1}"
   local layers=$(ls ${LAYERS_DIR})
-  #local account_details=$(yq -r '.environments.'"$environment" environments.yml)
-  local aws_account_id=account_id=$(yq -r '.environments[] | select(.name == "'"$environment"'") | .account' environments.yml)
+  local account_details=$(yq -r '.environments.'"$environment" environments.yml)
+  local aws_account_id=$(echo "$account_details" | yq -r '.account')
   echo $aws_account_id
   local state_bucket=$(get_state_bucket $aws_account_id)
 
@@ -32,7 +32,7 @@ function plan_layers {
     local layer_dir="${LAYERS_DIR}/${layer}"
     pushd ${layer_dir}
 
-    tf_init ${state_bucket} ${TF_STATE_REGION} ${aws_account_id} ${layer}
+    tf_init state_bucket_${aws_account_id} ${AWS_REGION} ${aws_account_id} ${layer}
 
     # create and/or switch to the appropriate terraform workspace
     terraform workspace select ${environment} || terraform workspace new ${environment}
