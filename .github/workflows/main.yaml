@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-          working-directory: ./
+          working-directory: ./scripts
 
     steps:
       - name: Install dependencies for build/deploy
@@ -25,7 +25,7 @@ jobs:
             pwd
             python3 -m venv venv
             . venv/bin/activate
-            scripts/install-dependencies.sh
+            ./install-dependencies.sh
             
       - name: Git checkout
         uses: actions/checkout@v3
