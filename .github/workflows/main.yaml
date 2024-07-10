@@ -61,7 +61,7 @@ jobs:
         env:
           ENVIRONMENT_NAME: staging
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          state_bucket_${aws_account_id}: test_bucket
+          state_bucket_${aws_account_id}: test-cicd-tfstate
         run: |
           ../scripts/plan.sh
         #if: github.event_name == 'pull_request'
