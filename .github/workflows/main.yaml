@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-          working-directory: ./scripts
+        shell: bash
 
     steps:
       - name: Install dependencies for build/deploy
