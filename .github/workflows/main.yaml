@@ -24,7 +24,7 @@ jobs:
         run: |
           python3 -m venv venv
           . venv/bin/activate
-          ./scripts/install-dependencies.sh
+          ../scripts/install-dependencies.sh
 
       - name: Git checkout
         uses: actions/checkout@v3
