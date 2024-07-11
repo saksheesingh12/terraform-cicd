@@ -6,7 +6,7 @@ SCRIPTS_DIR="$( cd "$(dirname "${0}")" ; pwd -P )"
 REPO_ROOT="${SCRIPTS_DIR}/.."
 LAYERS_DIR="${REPO_ROOT}/layers"
 
-environment="${1}"
+environment="${ENVIRONMENT_NAME}"
 
 #source ${SCRIPTS_DIR}/vars.sh
 layers=$(ls ${LAYERS_DIR})
