@@ -107,12 +107,20 @@ jobs:
     #       approvers: myteam
     #       minimum-approvals: 1
     steps:
+      - name: Git checkout
+        uses: actions/checkout@v3
+      - name: Configure AWS credentials from AWS account
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+           role-to-assume: ${{ secrets.AWS_ROLE }}
+           aws-region: ${{ secrets.AWS_REGION }}
+           role-session-name: GitHub-OIDC-TERRAFORM
       - name: Generate token
         id: generate_token
         uses: tibdex/github-app-token@v1
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+           app_id: ${{ secrets.APP_ID }}
+           private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: Wait for approval
         uses: trstringer/manual-approval@v1
         with:
