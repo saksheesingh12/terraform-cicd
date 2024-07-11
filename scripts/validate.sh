@@ -15,6 +15,6 @@ for layer in $layers
 do
   pushd ${LAYERS_DIR}/${layer}
   echo "running on layer ${layer}."
-  terraform validate
+  terraform validate -check -diff
   popd
 done
