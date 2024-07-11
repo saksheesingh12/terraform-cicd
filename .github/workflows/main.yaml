@@ -108,17 +108,17 @@ jobs:
     #       minimum-approvals: 1
     steps:
       - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      - name: Wait for approval
         uses: trstringer/manual-approval@v1
         with:
-          secret: ${{ github.TOKEN }}
-          approvers: saksheesingh12
+          secret: ${{ steps.generate_token.outputs.token }}
+          approvers: myteam
           minimum-approvals: 1
-          issue-title: "Deploying terraform"
-          issue-body: "Please approve or deny the deployment"
-          exclude-workflow-initiator-as-approver: false
-          additional-approved-words: ''
-          additional-denied-words: ''
-    needs: [pre_merge_staging, lint_staging]
       
 
   post_merge:
