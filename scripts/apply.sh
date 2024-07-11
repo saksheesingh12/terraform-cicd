@@ -6,7 +6,10 @@ environment="${ENVIRONMENT_NAME}"
 
 # Directory of this script:
 SCRIPTS_DIR="$( cd "$(dirname "${0}")" ; pwd -P )"
-
+cd ..
+REPO_ROOT="$( cd "$(dirname "${0}")" ; pwd -P )"
+LAYERS_DIR="${REPO_ROOT}/layers"
+PLANS_DIR="${REPO_ROOT}/plans"
 
 PLAN_DIR="${PLANS_DIR}/${environment}"
 
