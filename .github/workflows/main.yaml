@@ -90,18 +90,34 @@ jobs:
   #         aws-region: ${{ secrets.AWS_REGION }}
   #         role-session-name: GitHub-OIDC-TERRAFORM
 
-  #     - name: send_approval_request
-  #       uses: peter-evans/create-issue-from-file@v2
-  #       with:
-  #         title: 'Deployment Approval Request'
-  #         labels: 'approval'
-  #         body: |
-  #           Please approve this deployment by commenting :+1: on this issue.
-  #     - name: Wait for approval
-  #       uses: andstor/wait-for-approval@v1
-  #       with:
-  #         issue-number: ${{ steps.send_approval_request.outputs.number }}
-  #         repository-token: ${{ secrets.GITHUB_TOKEN }}
+
+  approve_deploy_staging:
+    runs-on: ubuntu-latest
+    # steps:
+    #   - name: Generate token
+    #     id: generate_token
+    #     uses: tibdex/github-app-token@v1
+    #     with:
+    #       app_id: ${{ secrets.APP_ID }}
+    #       private_key: ${{ secrets.APP_PRIVATE_KEY }}
+    #   - name: Wait for approval
+    #     uses: trstringer/manual-approval@v1
+    #     with:
+    #       secret: ${{ steps.generate_token.outputs.token }}
+    #       approvers: myteam
+    #       minimum-approvals: 1
+    steps:
+      - name: Generate token
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: user1,user2,org-team1
+          minimum-approvals: 1
+          issue-title: "Deploying v1.3.5 to prod from staging"
+          issue-body: "Please approve or deny the deployment of version v1.3.5."
+          exclude-workflow-initiator-as-approver: false
+          additional-approved-words: ''
+          additional-denied-words: ''
 
   post_merge:
     runs-on: ubuntu-latest
