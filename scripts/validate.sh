@@ -8,7 +8,7 @@ LAYERS_DIR="${REPO_ROOT}/layers"
 
 environment="${1}"
 
-source ${SCRIPTS_DIR}/vars.sh
+#source ${SCRIPTS_DIR}/vars.sh
 layers=$(ls ${LAYERS_DIR})
 
 for layer in $layers
