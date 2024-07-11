@@ -125,7 +125,7 @@ jobs:
         uses: trstringer/manual-approval@v1
         with:
           secret: ${{ steps.generate_token.outputs.token }}
-          approvers: myteam
+          approvers: saksheesingh12
           minimum-approvals: 1
       
 
