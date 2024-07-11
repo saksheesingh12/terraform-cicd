@@ -13,7 +13,7 @@ env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
 
 jobs:
-  lint:
+  lint_staging:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -29,12 +29,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
           role-session-name: GitHub-OIDC-TERRAFORM
-      # - name: Install dependencies for build/deploy
-      #   run: |
-      #         pwd
-      #         python3 -m venv venv
-      #         . venv/bin/activate
-      #         ../scripts/install-dependencies.sh
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -48,24 +43,14 @@ jobs:
         run: |
           ../scripts/lint.sh
 
-
   pre_merge_staging:
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
         working-directory: layers
-    needs: [lint]
+    needs: [lint_staging]
     steps:
-      # - name: Terraform Init
-      #   id: init
-      #   env:
-      #     AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
-      #     AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
-      #   run: terraform init -backend-config="bucket=${AWS_BUCKET_NAME}" -backend-config="key=${AWS_BUCKET_KEY_NAME}" -backend-config="region=${AWS_REGION}"
-      - name: Git checkout
-        uses: actions/checkout@v3
-
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -74,7 +59,11 @@ jobs:
           role-session-name: GitHub-OIDC-TERRAFORM
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        env:
+          ENVIRONMENT_NAME: staging
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          ../scripts/validate.sh
 
       - name: Terraform Plan Staging
         id: plan
