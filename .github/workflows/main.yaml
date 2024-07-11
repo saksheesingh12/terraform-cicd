@@ -147,6 +147,16 @@ jobs:
         working-directory: ./layers
     needs: [lint_staging, pre_merge_staging]
     steps:
+      - name: Git checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials from AWS account
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-session-name: GitHub-OIDC-TERRAFORM
+
       - name: Terraform Plan Staging
         id: plan
         env:
