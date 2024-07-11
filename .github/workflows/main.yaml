@@ -61,14 +61,6 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
           role-session-name: GitHub-OIDC-TERRAFORM
 
-      - name: Terraform Validate
-        id: validate
-        env:
-          ENVIRONMENT_NAME: staging
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-        run: |
-          ../scripts/validate.sh
-
       - name: Terraform Plan Staging
         id: plan
         env:
