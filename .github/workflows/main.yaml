@@ -48,7 +48,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: layers
+        working-directory: ./layers
     needs: [lint_staging]
     steps:
       - name: Configure AWS credentials from AWS account
