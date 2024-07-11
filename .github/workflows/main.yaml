@@ -119,7 +119,7 @@ jobs:
       run:
         shell: bash
         working-directory: ./layers
-    needs: [pre_merge_staging, lint]
+    needs: [pre_merge_staging, lint_staging]
     steps:
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
