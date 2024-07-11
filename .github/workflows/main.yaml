@@ -108,36 +108,36 @@ jobs:
               body: output
             })
   
-  approve_deploy_staging:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./layers
-    needs: [pre_merge_staging, lint_staging]
-    steps:
-      - name: Git checkout
-        uses: actions/checkout@v3
+  # approve_deploy_staging:
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       shell: bash
+  #       working-directory: ./layers
+  #   needs: [pre_merge_staging, lint_staging]
+  #   steps:
+  #     - name: Git checkout
+  #       uses: actions/checkout@v3
 
-      - name: Configure AWS credentials from AWS account
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE }}
-          aws-region: ${{ secrets.AWS_REGION }}
-          role-session-name: GitHub-OIDC-TERRAFORM
+  #     - name: Configure AWS credentials from AWS account
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         role-to-assume: ${{ secrets.AWS_ROLE }}
+  #         aws-region: ${{ secrets.AWS_REGION }}
+  #         role-session-name: GitHub-OIDC-TERRAFORM
 
-      - name: send_approval_request
-        uses: peter-evans/create-issue-from-file@v2
-        with:
-          title: 'Deployment Approval Request'
-          labels: 'approval'
-          body: |
-            Please approve this deployment by commenting :+1: on this issue.
-      - name: Wait for approval
-        uses: andstor/wait-for-approval@v1
-        with:
-          issue-number: ${{ steps.send_approval_request.outputs.number }}
-          repository-token: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: send_approval_request
+  #       uses: peter-evans/create-issue-from-file@v2
+  #       with:
+  #         title: 'Deployment Approval Request'
+  #         labels: 'approval'
+  #         body: |
+  #           Please approve this deployment by commenting :+1: on this issue.
+  #     - name: Wait for approval
+  #       uses: andstor/wait-for-approval@v1
+  #       with:
+  #         issue-number: ${{ steps.send_approval_request.outputs.number }}
+  #         repository-token: ${{ secrets.GITHUB_TOKEN }}
 
   post_merge:
     runs-on: ubuntu-latest
@@ -145,7 +145,7 @@ jobs:
       run:
         shell: bash
         working-directory: ./layers
-    needs: [approve_deploy_staging]
+    needs: [lint_staging, pre_merge_staging]
     steps:
       - name: Terraform Plan Staging
         id: plan
