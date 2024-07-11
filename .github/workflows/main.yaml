@@ -107,9 +107,8 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
-
-
-  post_merge:
+  
+  approve_deploy_staging:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -117,12 +116,44 @@ jobs:
         working-directory: ./layers
     needs: [pre_merge_staging, lint_staging]
     steps:
+        - name: send_approval_request
+          uses: peter-evans/create-issue-from-file@v2
+          with:
+            title: 'Deployment Approval Request'
+            labels: 'approval'
+            body: |
+              Please approve this deployment by commenting :+1: on this issue.
+        - name: Wait for approval
+          uses: andstor/wait-for-approval@v1
+          with:
+            issue-number: ${{ steps.send_approval_request.outputs.number }}
+            repository-token: ${{ secrets.GITHUB_TOKEN }}
+
+  post_merge:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./layers
+    needs: [approve_deploy_staging]
+    steps:
+      - name: Terraform Plan Staging
+        id: plan
+        env:
+          ENVIRONMENT_NAME: staging
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          ../scripts/plan.sh
+        #if: github.event_name == 'pull_request'
+
       - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
+        if: ${{ steps.plan.outputs.stdout }} == 'failure'
         run: exit 1
 
       - name: Terraform Apply Staging
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         env:
-          environment: staging
-        run: terraform apply -no-color -input=false -auto-approve plan_200compute.plan
+          ENVIRONMENT_NAME: staging
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          ../scripts/apply.sh
