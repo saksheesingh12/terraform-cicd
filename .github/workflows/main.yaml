@@ -11,7 +11,6 @@ permissions:
 env:
   TF_LOG: INFO
   AWS_REGION: ${{ secrets.AWS_REGION }}
-   
 
 jobs:
   lint:
@@ -43,8 +42,11 @@ jobs:
 
       - name: Terraform fmt
         id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
+        env:
+          ENVIRONMENT_NAME: staging
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          ../scripts/lint.sh
 
 
   pre_merge_staging:
