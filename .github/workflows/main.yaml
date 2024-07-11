@@ -48,7 +48,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./layers
+        working-directory: layers
     needs: [lint_staging]
     steps:
       - name: Configure AWS credentials from AWS account
@@ -64,7 +64,6 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
           ../scripts/validate.sh
-
       - name: Terraform Plan Staging
         id: plan
         env:
