@@ -16,6 +16,5 @@ do
   pushd ${LAYERS_DIR}/${layer}
   echo "running on layer ${layer}."
   terraform fmt -check -diff
-  tuvok . || exit 0 # don't fail builds yet
   popd
 done
