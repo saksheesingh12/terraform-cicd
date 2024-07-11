@@ -71,41 +71,8 @@ jobs:
         #if: github.event_name == 'pull_request'
         continue-on-error: true
 
- 
-  # approve_deploy_staging:
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       shell: bash
-  #       working-directory: ./layers
-  #   needs: [pre_merge_staging, lint_staging]
-  #   steps:
-  #     - name: Git checkout
-  #       uses: actions/checkout@v3
-
-  #     - name: Configure AWS credentials from AWS account
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         role-to-assume: ${{ secrets.AWS_ROLE }}
-  #         aws-region: ${{ secrets.AWS_REGION }}
-  #         role-session-name: GitHub-OIDC-TERRAFORM
-
-
   approve_deploy_staging:
     runs-on: ubuntu-latest
-    # steps:
-    #   - name: Generate token
-    #     id: generate_token
-    #     uses: tibdex/github-app-token@v1
-    #     with:
-    #       app_id: ${{ secrets.APP_ID }}
-    #       private_key: ${{ secrets.APP_PRIVATE_KEY }}
-    #   - name: Wait for approval
-    #     uses: trstringer/manual-approval@v1
-    #     with:
-    #       secret: ${{ steps.generate_token.outputs.token }}
-    #       approvers: myteam
-    #       minimum-approvals: 1
     steps:
       - name: Git checkout
         uses: actions/checkout@v3
@@ -127,6 +94,7 @@ jobs:
           secret: ${{ steps.generate_token.outputs.token }}
           approvers: saksheesingh12
           minimum-approvals: 1
+    needs: [lint_staging, pre_merge_staging]
       
 
   post_merge:
