@@ -33,7 +33,6 @@ jobs:
       - name: Terraform fmt
         id: fmt
         env:
-          ENVIRONMENT_NAME: staging
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
           ../scripts/lint.sh

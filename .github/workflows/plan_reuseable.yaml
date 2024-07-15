@@ -28,7 +28,7 @@ jobs:
      - name: Terraform Plan Staging
        id: plan
        env:
-        ENVIRONMENT_NAME: staging
+        ENVIRONMENT_NAME: ${{inputs.environment}}
         AWS_REGION: ${{ secrets.AWS_REGION }}
        run: |
         ../scripts/plan.sh
