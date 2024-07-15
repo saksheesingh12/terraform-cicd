@@ -97,7 +97,7 @@ jobs:
     needs: [lint_staging, pre_merge_staging]
       
 
-  post_merge:
+  post_merge_staging:
     runs-on: ubuntu-latest
     defaults:
       run:
